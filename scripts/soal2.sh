@@ -3,7 +3,7 @@
 sysctl -w net.ipv4.ip_forward=1
 echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 
-apt -y install isc-dhcp-relayi
+apt -y install isc-dhcp-relay
 
 
 cat > /etc/default/isc-dhcp-relay << EOF
