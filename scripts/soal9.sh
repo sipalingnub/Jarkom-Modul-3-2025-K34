@@ -6,7 +6,7 @@ echo "--- Memulai Tes Mandiri Soal 9 di $(hostname) ---"
 
 # --- VARIABEL ---
 PROXY_IP="192.228.5.2:3128" # Proxy Minastir
-DOMAIN="k34.com"
+DOMAIN="K34.com"
 API_PATH="/api/airing" # Sesuai permintaan soal
 
 HOST=$(hostname)
@@ -14,10 +14,13 @@ PORT=""
 
 # --- Tentukan Port berdasarkan Hostname ---
 if [ "$HOST" == "Elendil" ]; then
+    HOST="elendil"
     PORT="8001"
 elif [ "$HOST" == "Isildur" ]; then
+    HOST="isildur"
     PORT="8002"
 elif [ "$HOST" == "Anarion" ]; then
+    HOST="anarion"
     PORT="8003"
 else
     echo "ERROR: Script ini hanya untuk Elendil, Isildur, atau Anarion."

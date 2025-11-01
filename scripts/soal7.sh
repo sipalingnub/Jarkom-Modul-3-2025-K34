@@ -1,53 +1,50 @@
-#!/bin/bash
-# FILE: soal7.sh
 # Dijalankan di Elendil, Isildur, dan Anarion
+cd /opt
+git clone https://github.com/elshiraphine/laravel-simple-rest-api laravel-app
+cd laravel-app
+apt -y install php8.4-xml php8.4-mysql php8.4-mbstring php8.4-curl php8.4-zip php8.4-intl
+rm -rf vendor composer.lock
+composer update --with-all-dependencies
+cp .env.example .env
+php artisan key:generate
 
-echo "--- Memulai Instalasi Worker Laravel di $(hostname) ---"
+mkdir -p storage/logs bootstrap/cache
+touch storage/logs/laravel.log
 
-# --- VARIABEL ---
-PROXY_IP="192.228.5.2:3128" # Proxy Minastir
-PROJECT_DIR="/var/www/laravel-simple-rest-api"
+# kasih hak tulis ke www-data
+chown -R www-data:www-data storage bootstrap/cache
+chmod -R ug+rwX storage bootstrap/cache
 
-echo "--- Langkah 0: Konfigurasi Proxy (Soal 3) ---"
-# Atur Proxy untuk apt 
-echo 'Acquire::http::Proxy "http://'$PROXY_IP'";' > /etc/apt/apt.conf.d/01proxy
-echo 'Acquire::https::Proxy "http://'$PROXY_IP'";' >> /etc/apt/apt.conf.d/01proxy
+cat >/etc/nginx/sites-available/laravel <<'EOF'
+server {
+    listen 8001; # atau 8002, 8003 sesuai host
+    server_name <hostname>.K34.com <hostname>;
 
-# Atur Proxy untuk Terminal (curl, git, composer) [cite: 71]
-export http_proxy="http://$PROXY_IP"
-export https_proxy="http://$PROXY_IP"
+    root /opt/laravel-app/public;
+    index index.php index.html;
 
-echo "--- Langkah 1: Instalasi PPA & PHP ---"
-# Install Prasyarat (Fix: Tanpa software-properties-common) [cite: 71]
-apt-get update && apt-get install -y lsb-release ca-certificates apt-transport-https gnupg2
+    # Laravel front controller
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
 
-# Tambahkan PPA PHP Sury.org [cite: 71]
-curl -sSL https://packages.sury.org/php/README.txt | bash -x
+    # PHP handler
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        # pastikan ini 8.4:
+        fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
 
-# Install PHP 8.4, Nginx, dan Git [cite: 72]
-apt-get update
-apt-get install -y php8.4 php8.4-fpm php8.4-mysql php8.4-mbstring php8.4-xml php8.4-curl php8.4-zip unzip nginx git
+    # Security/opsional
+    location ~ /\.(?!well-known).* { deny all; }
+    client_max_body_size 20m;
 
-echo "--- Langkah 2: Instalasi Composer ---" [cite: 72]
-curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-echo "--- Langkah 3: Setup Proyek Laravel ---"
-cd /var/www
-git clone https://github.com/elshiraphine/laravel-simple-rest-api.git [cite: 72]
-cd $PROJECT_DIR
-
-# Fix: Update composer untuk PHP 8.4 (bukan install) [cite: 72]
-composer update
-
-cp .env.example .env [cite: 72]
-php artisan key:generate [cite: 72]
-
-echo "--- Langkah 4: Verifikasi Instalasi ---"
-echo "Mengecek .env:"
-cat $PROJECT_DIR/.env
-echo "Mengecek folder vendor:"
-ls $PROJECT_DIR/vendor/
-echo "Mengecek versi artisan:"
-php artisan --version
-
-echo "SOAL 7 SELESAI di $(hostname)."
+    access_log /var/log/nginx/elnd_access.log;
+    error_log  /var/log/nginx/elnd_error.log;
+}
+EOF
+ln -s /etc/nginx/sites-available/laravel /etc/nginx/sites-enabled/laravel
+service php8.4-fpm restart
+service nginx restart
