@@ -18,9 +18,9 @@
 - [Soal 4 & 5](#soal-4--5-dns-master-slave-cname-txt-ptr)
 - [Soal 7](#soal-7-instalasi-worker-laravel)
 - [Soal 8, 9 & 10](#soal-8-9-10-database-nginx--load-balancer)
-- [Soal 11](#Soal-11:-Benchmark-&-Strategi-Bertahan)
-- [soal 12](#Soal-12:-Instalasi-Worker-PHP)
-- [soal 13](#Soal-13:-Konfigurasi-Nginx-Worker-PHP)
+- [soal 11](#soal-11-benchmark--strategi-bertahan)
+- [soal 12](#soal-12-instalasi-worker-php)
+- [soal 13](#soal-13-konfigurasi-nginx-worker-php)
 
 4. [Troubleshooting & Kendala Utama](#4.-troubleshooting-&-Kendala-Utama)
 
