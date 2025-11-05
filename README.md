@@ -18,16 +18,18 @@
 - [Soal 4 & 5](#soal-4--5-dns-master-slave-cname-txt-ptr)
 - [Soal 7](#soal-7-instalasi-worker-laravel)
 - [Soal 8, 9 & 10](#soal-8-9-10-database-nginx--load-balancer)
-
-4. [Troubleshooting & Kendala Utama](#)
-5. [Daftar Script Pengerjaan](#)
+- [Soal 11](#Soal-11:-Benchmark-&-Strategi-Bertahan)
+- [soal 12](#Soal-12:-Instalasi-Worker-PHP)
+- [soal 13](#Soal-13:-Konfigurasi-Nginx-Worker-PHP)
+- 
+4. [Troubleshooting & Kendala Utama](#4.-troubleshooting-&-Kendala-Utama)
 
 
 # 1. Topologi Jaringan
 
 Praktikum ini disimulasikan menggunakan GNS3 dengan topologi sebagai berikut. Jaringan ini terdiri dari 20 node (termasuk 1 router, 8 switch, dan 1 NAT) yang dibagi menjadi 5 Jaringan (Subnet) berbeda. Router utama (Durin) menghubungkan semua 5 subnet dan menyediakan akses ke internet (NAT).
 
-[dokumentasi topologi disini]
+[!image alt](https://github.com/sipalingnub/Jarkom-Modul-3-2025-K34/blob/1ee85db7c3f8d51d2b2e835f3dde45be10819e85/assets/Screenshot%202025-10-29%20020713.png)
 
 # 2. Konfigurasi Jaringan
 
