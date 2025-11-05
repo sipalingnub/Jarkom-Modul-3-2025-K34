@@ -21,7 +21,7 @@
 - [Soal 11](#Soal-11:-Benchmark-&-Strategi-Bertahan)
 - [soal 12](#Soal-12:-Instalasi-Worker-PHP)
 - [soal 13](#Soal-13:-Konfigurasi-Nginx-Worker-PHP)
-- 
+
 4. [Troubleshooting & Kendala Utama](#4.-troubleshooting-&-Kendala-Utama)
 
 
