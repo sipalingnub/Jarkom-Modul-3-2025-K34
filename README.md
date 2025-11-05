@@ -74,7 +74,7 @@ Berikut adalah skema alokasi IP Address statis dan dinamis (DHCP) yang digunakan
 Berikut adalah langkah-langkah pengerjaan untuk setiap soal, dari Soal 1 hingga 8, yang diselesaikan berdasarkan log dan script di repositori ini.
 
 ### Soal 1: Jaringan Dasar (Router & NAT)
-* **Script:** [`soal1.sh`](./soal1.sh)
+* **Script:** [`soal1.sh`](./scripts/soal1.sh)
 * Tugas ini adalah mengkonfigurasi `Durin` agar berfungsi sebagai router yang menyediakan koneksi internet (NAT) untuk semua node dan mengizinkan *forwarding* antar jaringan internal.
 
 1. **Akses Internet Awal:** Memberi `Durin` IP statis sementara (`192.168.122.100`) dan default route (`192.168.122.1`) agar bisa menjalankan `apt update`.
@@ -90,7 +90,7 @@ Berikut adalah langkah-langkah pengerjaan untuk setiap soal, dari Soal 1 hingga 
 6. **Simpan Aturan:** Membuat directory `/etc/iptables` dan menyimpan semua aturan firewall dengan `iptables-save > /etc/iptables/rules.v4`
 
 ### Soal 2 & 6: DHCP Server, Relay, & Lease Time
-* **Script:** [`soal2.sh`](./soal2.sh) dan [`soal6.sh`](./soal6.sh)
+* **Script:** [`soal2.sh`](./scripts/soal2.sh) dan [`soal6.sh`](./scripts/soal6.sh)
 * Tugas ini mengatur `Aldarion` sebagai DHCP Server dan `Durin` sebagai DHCP Relay. Soal 6 (Lease Time) sudah termasuk di dalam konfigurasi `dhcpd.conf` di `soal2.sh`.
 
 #### 1. **Konfigurasi `Aldarion` (Server):**
@@ -114,7 +114,7 @@ Berikut adalah langkah-langkah pengerjaan untuk setiap soal, dari Soal 1 hingga 
 - Hasil verifikasi sukses: `Amandil` & `Gilgalad` mendapat IP range, dan `Khamul` mendapat IP fixed `192.228.3.95`.
 
 ### Soal 3: DNS Forwarder (Versi Revisi)
-* **Script:** [`soal3.sh`](./soal3.sh)
+* **Script:** [`soal3.sh`](./scripts/soal3.sh)
 * Tugas ini mengubah `Minastir` menjadi DNS Forwarder murni (menggunakan BIND9) dan memigrasikan seluruh jaringan untuk menggunakan `Minastir` sebagai DNS utama.
 
 #### 1. **Konfigurasi `Minastir` (Forwarder):**
@@ -132,7 +132,7 @@ Berikut adalah langkah-langkah pengerjaan untuk setiap soal, dari Soal 1 hingga 
 - Menjalankan `dhclient -r && dhclient -v eth0` di 3 node dinamis untuk mengambil DNS baru.
 
 ### Soal 4 & 5: DNS Master-Slave, CNAME, TXT, PTR
-* **Script:** [`soal4.sh`](./soal4.sh) dan [`soal5.sh`](./soal5.sh)
+* **Script:** [`soal4.sh`](./scripts/soal4.sh) dan [`soal5.sh`](./scripts/soal5.sh)
 * Tugas ini adalah membangun server DNS otoritatif `k34.com` (`Erendis` sebagai Master, `Amdir` sebagai Slave) dan menambahkan *records* lanjutan (CNAME, TXT, PTR).
 
 #### 1. **Konfigurasi `Erendis` (Master `192.228.3.2`):**
@@ -158,7 +158,7 @@ Berikut adalah langkah-langkah pengerjaan untuk setiap soal, dari Soal 1 hingga 
 - Menjalankan `dhclient -r && dhclient eth0` di 3 node dinamis.
 
 ### Soal 7: Instalasi Worker Laravel
-* **Script:** [`soal7.sh`](./soal7.sh)
+* **Script:** [`soal7.sh`](./scripts/soal7.sh)
 * Tugas ini adalah menyiapkan *stack* LEMP (Nginx, PHP 8.4, Composer) di 3 worker (`Elendil`, `Isildur`, `Anarion`) dan meng-kloning *repository* Laravel.
 
 1. **Atur Proxy:** Karena internet diblokir (Soal 3 Proxy), `apt` dan `curl` diatur untuk menggunakan proxy `Minastir` (`192.228.5.2:3128`).
@@ -176,7 +176,7 @@ Berikut adalah langkah-langkah pengerjaan untuk setiap soal, dari Soal 1 hingga 
 6. **Selesai:** Menjalankan `cp .env.example .env` dan `php artisan key:generate`.
 
 ### Soal 8, 9, 10: Database, Nginx, & Load Balancer
-* **Script:** [`soal8.sh`](./soal8.sh), [`soal9.sh`](./soal9.sh), [`soal10.sh`](./soal10.sh)
+* **Script:** [`soal8.sh`](./scripts/soal8.sh), [`soal9.sh`](./scripts/soal9.sh), [`soal10.sh`](./scripts/soal10.sh)
 * Tugas ini menghubungkan 3 *worker* ke `Palantir` (MariaDB), mengkonfigurasi Nginx di *port* unik (`8001-8003`), dan membuat *Load Balancer* (Reverse Proxy) di `Elros`.
 
 1. **`Palantir` (DB Server):** Menginstal `mariadb-server`, membuat `laravel_db` dan `laravel_user` (`password123`), dan mengubah `bind-address` menjadi `0.0.0.0` untuk koneksi remote.
@@ -192,7 +192,7 @@ Berikut adalah langkah-langkah pengerjaan untuk setiap soal, dari Soal 1 hingga 
 6. **Verifikasi (`Miriel`):** Menginstal `lynx` dan `curl`, lalu mengakses `http://elros.k34.com/api/animes` (Tes Soal 10) dan `http://elendil.k34.com:8001/api/animes` (Tes Soal 9).
 
 ### Soal 11: Benchmark & Strategi Bertahan
-* **Script:** [`soal11.sh`](./soal11.sh)
+* **Script:** [`soal11.sh`](./scripts/soal11.sh)
 
 **Tujuan:** Menguji Load Balancer `Elros` dengan `ab` (ApacheBenchmark) dan menerapkan strategi bertahan (`weight`).
 
@@ -226,7 +226,7 @@ Sekarang, kita terapkan fix di Load Balancer.
 3. **Verifikasi:** Bandingkan `Requests per second` (RPS) yang baru dengan yang lama. Karena `Elendil` (mungkin) lebih kuat atau kita sebar traffic-nya dengan lebih baik, angkanya bisa jadi lebih tinggi (lebih baik).
 
 ### Soal 12: Instalasi Worker PHP
-* **Script:** [`soal12.sh`](./soal12.sh)
+* **Script:** [`soal12.sh`](./scripts/soal12.sh)
 
 **Tujuan:** Menyiapkan file di 3 worker baru (`Galadriel`, `Celeborn`, `Oropher`).
 
@@ -243,7 +243,7 @@ Sekarang, kita terapkan fix di Load Balancer.
 - `service php8.4-fpm status` (Pastikan running).
 
 ### Soal 13: Konfigurasi Nginx Worker PHP
-* **Script:** [`soal13.sh`](./soal13.sh)
+* **Script:** [`soal13.sh`](./scripts/soal13.sh)
 
 **Tujuan:** Menyalankan Nginx di 3 worker PHP di port unik (`8004`, `8005`, `8006`).
 
